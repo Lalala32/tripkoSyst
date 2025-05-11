@@ -1,7 +1,7 @@
 /* Add the provided CSS styles for the navbar */
 .navbar {
     background-color: rgba(37, 93, 138, 0.95);
-    padding: 1rem;
+    padding: 0%;
     position: fixed;
     width: 100%;
     top: 0;
@@ -90,8 +90,8 @@
     }
 }
 
-/* Dropdown styles */
-.nav-dropdown {
+ /* Dropdown styles */
+ .nav-dropdown {
     position: relative;
     display: inline-block;
 }

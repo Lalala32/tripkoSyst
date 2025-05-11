@@ -22,7 +22,7 @@ if (!isLoggedIn()) {
     <link rel="stylesheet" href="../file_css/userpage.css">
     <link rel="stylesheet" href="../file_css/navbar.css">
   
-    <script>
+     <script>
         document.addEventListener('DOMContentLoaded', () => {
             // Mobile menu functionality
             const menuBtn = document.querySelector('.menu-btn');
@@ -62,6 +62,100 @@ if (!isLoggedIn()) {
 
             // Start the rotation
             setInterval(rotateBackgrounds, 5000);
+
+            // Search functionality
+            const searchInput = document.getElementById('searchInput');
+            const searchResults = document.getElementById('searchResults');
+            const exploreButton = document.getElementById('exploreButton');
+            let selectedSpotId = null;            // Search input handler
+            let searchTimeout;
+            searchInput?.addEventListener('input', async function() {
+                const query = this.value.trim().toLowerCase();
+                
+                // Clear the previous timeout
+                clearTimeout(searchTimeout);
+                
+                if (query.length < 2) {
+                    searchResults.style.display = 'none';
+                    return;
+                }
+                
+                // Add a small delay to prevent too many API calls
+                searchTimeout = setTimeout(async () => {
+
+                try {
+                    const response = await fetch('../../tripko-backend/api/tourist_spot/search.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ search: query })
+                    });
+
+                    const data = await response.json();
+                      if (data.records && data.records.length > 0) {
+                        // Check for exact match
+                        const exactMatch = data.records.find(spot => 
+                            spot.name.toLowerCase() === query
+                        );
+                          if (exactMatch) {
+                            // Redirect immediately for exact match with both town_id and spot_id
+                            window.location.href = `user side/municipality.php?id=${exactMatch.town_id}&spot=${exactMatch.spot_id}`;
+                            return;
+                        }
+                        
+                        searchResults.style.display = 'block';// Add click handlers for results
+                        document.querySelectorAll('.search-result-item').forEach(item => {
+                            item.addEventListener('click', function() {
+                                selectedSpotId = Number(this.dataset.spotId);
+                                console.log('Selected spot ID set to:', selectedSpotId, typeof selectedSpotId);
+                                searchInput.value = this.querySelector('div > div:first-child').textContent;
+                                searchResults.style.display = 'none';
+                            });
+                        });
+                    } else {
+                        searchResults.innerHTML = '<div class="search-result-item">No results found</div>';
+                        searchResults.style.display = 'block';
+                    }                } catch (error) {
+                    console.error('Search error:', error);
+                    searchResults.innerHTML = '<div class="search-result-item">Error performing search</div>';
+                    searchResults.style.display = 'block';
+                }
+                }, 300); // 300ms delay before searching
+            });            // Hide results when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!searchResults?.contains(e.target) && e.target !== searchInput) {
+                    searchResults.style.display = 'none';
+                }
+            });            // Handle explore button click
+            exploreButton?.addEventListener('click', async function() {
+                if (!selectedSpotId) {
+                    window.location.href = 'user side/municipality.php';
+                    return;
+                }
+
+                try {
+                    const response = await fetch('../../tripko-backend/api/tourist_spot/read.php', {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    });
+                    
+                    const data = await response.json();
+                    const spotIdNum = Number(selectedSpotId);
+                    const spot = data.records.find(s => Number(s.spot_id) === spotIdNum);
+
+                    if (spot?.town_id) {
+                        window.location.href = `user side/municipality.php?id=${spot.town_id}`;
+                    } else {
+                        window.location.href = 'user side/municipality.php';
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    window.location.href = 'user side/municipality.php';
+                }
+            });
 
             // Category filtering and slider functionality
             const filterButtons = document.querySelectorAll('.filter-btn');
@@ -145,58 +239,10 @@ if (!isLoggedIn()) {
                 });
             });
         });
-
-        // Spot management functions
-        async function editSpot(spot) {
-            window.location.href = `tourist_spot.php?edit=${spot.spot_id}`;
-        }
-
-        async function deleteSpot(spotId, spotName) {
-            if (confirm(`Are you sure you want to delete the tourist spot "${spotName}"?`)) {
-                try {
-                    const response = await fetch(`../../tripko-backend/api/tourist_spot/delete.php?spot_id=${spotId}`, {
-                        method: 'DELETE'
-                    });
-                    const data = await response.json();
-                    if (data.success) {
-                        alert('Tourist spot deleted successfully!');
-                        location.reload();
-                    } else {
-                        throw new Error(data.message || 'Failed to delete tourist spot');
-                    }
-                } catch (error) {
-                    console.error('Delete error:', error);
-                    alert('Error: ' + error.message);
-                }
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            const transportDropdown = document.getElementById('transportDropdown');
-            const transportDropdownIcon = document.getElementById('transportDropdownIcon');
-
-            // Close dropdown when clicking outside
-            document.addEventListener('click', (e) => {
-                if (!e.target.closest('#transportDropdown') && !e.target.closest('[onclick*="toggleTransportDropdown"]')) {
-                    transportDropdown?.classList.add('hidden');
-                    if (transportDropdownIcon) {
-                        transportDropdownIcon.style.transform = 'rotate(0deg)';
-                    }
-                }
-            });
-        });
-
-        function toggleTransportDropdown(event) {
-            event.preventDefault();
-            const dropdown = document.getElementById('transportDropdown');
-            const icon = document.getElementById('transportDropdownIcon');
-            dropdown.classList.toggle('hidden');
-            icon.style.transform = dropdown.classList.contains('hidden') ? 'rotate(0deg)' : 'rotate(180deg)';
-        }
     </script>
 </head>
 <body>
-    <?php include_once 'navbar.php'; renderNavbar(); ?>
+    <?php include 'navbar.php'; renderNavbar(); ?>
 
     <section class="hero">
         <?php
@@ -227,9 +273,9 @@ if (!isLoggedIn()) {
             </div>
             <div class="search-container">
                 <i class='bx bx-search search-icon'></i>
-                <input type="text" class="search-bar" placeholder="Search destinations, activities, or places to visit...">
+                <input type="text" id="searchInput" placeholder="Search tourist spots...">
+                <div id="searchResults" class="search-results"></div>
             </div>
-            <a href="tourist_spot.php" class="cta-button">Start Your Journey</a>
         </div>
     </section>
 
@@ -237,76 +283,59 @@ if (!isLoggedIn()) {
         <h2 class="section-title">Popular Destinations</h2>
         
         <div class="category-filters">
-            <button class="filter-btn active" data-category="all">All</button>
-            <button class="filter-btn" data-category="Beach">Beaches</button>
-            <button class="filter-btn" data-category="Islands">Islands</button>
-            <button class="filter-btn" data-category="Waterfalls">Waterfalls</button>
-            <button class="filter-btn" data-category="Caves">Caves</button>
-            <button class="filter-btn" data-category="Churches">Churches</button>
+            <a href="user side/places-to-go.php" class="filter-btn">Beaches</a>
+            <a href="user side/islands-to-go.php" class="filter-btn">Islands</a>
+            <a href="user side/waterfalls-to-go.php" class="filter-btn">Waterfalls</a>
+            <a href="user side/caves-to-go.php" class="filter-btn">Caves</a>
+            <a href="user side/churches-to-go.php" class="filter-btn">Churches</a>
+            <a href="user side/festivals-to-go.php" class="filter-btn">Festivals</a>
         </div>
 
         <div class="cards-container">
-            <!-- Navigation buttons -->
-            <div class="slider-nav prev hidden"><i class='bx bx-chevron-left'></i></div>
-            <div class="slider-nav next hidden"><i class='bx bx-chevron-right'></i></div>
-            
-            <div class="cards-slider">
-                <?php
-                require_once '../../tripko-backend/config/Database.php';
-                
-                $database = new Database();
-                $conn = $database->getConnection();
-                
-                $sql = "SELECT 
-                            ts.*, 
-                            t.town_name,
-                            COALESCE(SUM(vt.visitor_count), 0) as total_visitors
-                        FROM tourist_spots ts
-                        LEFT JOIN towns t ON ts.town_id = t.town_id
-                        LEFT JOIN visitors_tracking vt ON ts.spot_id = vt.spot_id
-                        WHERE ts.status = 'active' OR ts.status IS NULL
-                        GROUP BY ts.spot_id
-                        ORDER BY total_visitors DESC
-                        LIMIT 9";
-                
-                $result = $conn->query($sql);
-                if (!$result) {
-                    throw new Exception("Query failed: " . $conn->error);
-                }
+    <!-- Navigation buttons -->
+        <div class="slider-nav prev hidden"><i class='bx bx-chevron-left'></i></div>
+        <div class="slider-nav next hidden"><i class='bx bx-chevron-right'></i></div>
+    
+        <div class="cards-slider">
+        <?php
+        require_once '../../tripko-backend/config/Database.php';
+        
+        $database = new Database();
+        $conn = $database->getConnection();
+        
+        // Modified query to remove visitor count and spot count
+        $sql = "SELECT 
+                    t.town_id,
+                    t.town_name,
+                    GROUP_CONCAT(DISTINCT ts.category) as categories
+                FROM towns t
+                INNER JOIN tourist_spots ts ON t.town_id = ts.town_id
+                WHERE ts.status = 'active'
+                GROUP BY t.town_id
+                ORDER BY t.town_name ASC
+                LIMIT 9";
+        
+        $stmt = $conn->prepare($sql);
+        $stmt->execute();
+        $municipalities = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-                while ($spot = $result->fetch_assoc()): ?>
-                    <div class="card" data-category="<?php echo htmlspecialchars($spot['category']); ?>">
-                        <div class="relative">
-                            <img src="../../uploads/<?php echo htmlspecialchars($spot['image_path']); ?>" 
-                                 alt="<?php echo htmlspecialchars($spot['name']); ?>"
-                                 loading="lazy"
-                                 onerror="this.src='../images/placeholder.jpg'">
-                        </div>
-                        <div class="card-content">
-                            <div class="category-tag">
-                                <span class="inline-block bg-[#255D8A] text-white text-xs px-3 py-1 rounded-full font-semibold mb-2"><?php echo htmlspecialchars($spot['category']); ?></span>
-                                <span class="inline-block bg-[#ffd700] text-[#255D8A] text-xs px-3 py-1 rounded-full font-semibold mb-2 ml-2"><?php echo htmlspecialchars($spot['town_name']); ?></span>
-                            </div>
-                            <h3><?php echo htmlspecialchars($spot['name']); ?></h3>
-                            <p><?php echo htmlspecialchars($spot['description']); ?></p>
-                            <div class="contact-info">
-                                <?php if (!empty($spot['contact_info'])): ?>
-                                    <p class="text-sm text-gray-600"><i class="fas fa-phone-alt mr-2"></i><?php echo htmlspecialchars($spot['contact_info']); ?></p>
-                                <?php endif; ?>
-                            </div>
-                            <a href="tourist_spot.php" class="cta-button">Learn More</a>
-                        </div>
-                    </div>
-                <?php endwhile; ?>
+        foreach ($municipalities as $muni): ?>
+            <div class="card" data-category="municipality">
+                <div class="relative">
+                    <img src="../uploads/<?php echo strtolower($muni['town_name']); ?>.jpg" 
+                         alt="<?php echo htmlspecialchars($muni['town_name']); ?>"
+                         loading="lazy"
+                         onerror="this.src='../images/placeholder.jpg'">
+                </div>
+                <div class="card-content">
+                    <h3><?php echo htmlspecialchars($muni['town_name']); ?></h3>
+                    <a href="user side/municipality.php?id=<?php echo $muni['town_id']; ?>" class="cta-button">
+                        Explore <?php echo htmlspecialchars($muni['town_name']); ?>
+                    </a>
+                </div>
             </div>
-        </div>
-        <div class="text-center mt-8">
-            <a href="tourist_spot.php" class="main-cta-button">View All Destinations</a>
-        </div>
-    </section>
-
-    <div id="transportDropdown" class="hidden pl-4 space-y-2">
-        <!-- Transport options will be populated by JavaScript -->
+        <?php endforeach; ?>
     </div>
+</div>
 </body>
 </html>
