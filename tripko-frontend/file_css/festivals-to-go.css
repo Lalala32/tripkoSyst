@@ -1,0 +1,154 @@
+@import url('https://fonts.googleapis.com/css2?family=Cedarville+Cursive&display=swap');
+        * {
+             margin: 0;
+            padding: 0;
+             box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+}
+
+        body {
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .hero_content {
+            margin-top: 80px;
+            padding: 20px;
+            text-align: center;
+            color: #255D8A;
+        }
+
+        .title-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .hero_title {
+            color: #255D8A;
+            margin: 0;
+            font-size: 2.0em;
+            font-family: 'Cedarville Cursive', cursive;
+            text-align: center;
+        }
+
+        .back-button {
+            position: absolute;
+            left: 40px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 10px 20px;
+            background-color: #255D8A;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .back-button:hover {
+            background-color: #1e4d70;
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .hero_content {
+                padding: 20px 10px;
+            }
+
+            .back-button {
+                left: 10px;
+                padding: 8px 15px;
+                font-size: 0.9em;
+            }
+        }
+
+        .scroll-container {
+            display: flex;
+            overflow-x: auto;
+            gap: 20px;
+            padding: 20px;
+            scroll-behavior: smooth;
+        }
+
+        .card {
+            min-width: 300px;
+            height: 500px;
+            perspective: 1000px;
+            border: 2px solid #255D8A;
+            border-radius: 17px;
+        }
+
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.8s;
+            transform-style: preserve-3d;
+        }
+
+        .card.flipped .card-inner {
+            transform: rotateY(180deg);
+                    }
+
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .card-front img {
+            width: 100%;
+            height: 80%;
+            object-fit: cover;
+                    }
+
+        .card-front .content {
+            padding: 15px;
+            background: white;
+            height: 30%;
+        }
+
+        .card-back {
+            transform: rotateY(180deg);
+            background: white;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .spot-name {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #255D8A;
+            margin-bottom: 5px;
+        }
+
+        .spot-location {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+
+        .spot-description {
+            font-size: 0.9em;
+            line-height: 1.6;
+            color: #444;
+        }
+
+        /* Error and focus styles */
+        input.error, textarea.error, select.error {
+            border: 2px solid red;
+        }
+
+        input.focused, textarea.focused, select.focused {
+            border: 2px solid #255D8A;
+            outline: none;
+        }

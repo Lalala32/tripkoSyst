@@ -1,0 +1,29 @@
+
+    Directory: C:\xampp\htdocs\tripkolang\uploads
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a---          10/05/2025  5:29 pm          60558 680e1a4f98b2f_ChatGPT-Image-Apr-22,-2025,-12_39_38-PM_02.jpg
+-a---          10/05/2025  5:29 pm          56668 680e1f8e7ed3f_ChatGPT-Image-Apr-22,-2025,-12_39_38-PM_03.jpg
+-a---          10/05/2025  5:29 pm          55998 680e20ecf169f_ChatGPT-Image-Apr-22,-2025,-12_39_38-PM_05.jpg
+-a---          10/05/2025  5:29 pm          55998 680e21ea3765e_ChatGPT-Image-Apr-22,-2025,-12_39_38-PM_05.jpg
+-a---          10/05/2025  5:29 pm          55998 680e2224c42aa_ChatGPT-Image-Apr-22,-2025,-12_39_38-PM_05.jpg
+-a---          10/05/2025  5:29 pm          55998 680e22f2a76c4_ChatGPT-Image-Apr-22,-2025,-12_39_38-PM_05.jpg
+-a---          10/05/2025  5:29 pm         263527 68103c630ab13_Bolinao Falls.jfif
+-a---          10/05/2025  5:29 pm         263527 68104fd27c4bc_Bolinao Falls.jfif
+-a---          10/05/2025  5:29 pm        1400875 6813937f65065_hundred-islands-park.jpg
+-a---          10/05/2025  5:29 pm          23961 6813945d4ac34_hundred-island.jpg
+-a---          10/05/2025  5:29 pm         206056 681394705bcd7_bolinao3.jpg
+-a---          10/05/2025  5:29 pm         689698 681394af174f6_abagatanen-beach.jpg
+-a---          10/05/2025  5:29 pm          14577 681ac3cfb423d_images.jfif
+-a---          10/05/2025  5:29 pm          16435 681ac74f88b01_alaminos.jfif
+-a---          10/05/2025  5:29 pm          77882 681aca80256d6_Binungey-Festival.jpg
+-a---          10/05/2025  5:29 pm          16435 681acc678a672_alaminos.jfif
+-a---          10/05/2025  5:29 pm          16435 681acc678a676_alaminos.jfif
+-a---          10/05/2025  5:29 pm          16435 681acf01e0e36_alaminos.jfif
+-a---          10/05/2025  5:29 pm          71252 681bbdde729bb_f3.jpg
+-a---          11/05/2025  6:29 pm        2883325 68207bff84621_RobloxScreenShot20250104_151417772.png
+-a---          11/05/2025  6:29 pm        2883325 68207c251021e_RobloxScreenShot20250104_151417772.png
+-a---          11/05/2025  6:41 pm        2883325 68207ed91817b_RobloxScreenShot20250104_151417772.png
+-a---          11/05/2025  7:02 pm              0 file_list.txt
+

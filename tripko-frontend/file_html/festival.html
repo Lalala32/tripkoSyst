@@ -274,10 +274,10 @@
 
     // Helper function for image URLs
     function getImageUrl(imagePath) {
-      if (!imagePath || imagePath === 'placeholder.jpg') {
+      if (!imagePath || !imagePath.includes('.')) {
         return '../images/placeholder.jpg';
       }
-      return `/TripKo-System/uploads/${imagePath}`;
+      return `/tripkolang/uploads/${imagePath}`;
     }
 
     // All the rest of our functions

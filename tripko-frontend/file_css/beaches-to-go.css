@@ -1,0 +1,180 @@
+@import url('https://fonts.googleapis.com/css2?family=Cedarville+Cursive&display=swap');
+         * {
+             margin: 0;
+            padding: 0;
+             box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+}
+
+        body {
+            line-height: 1.6;
+            overflow-x: hidden;
+            transform: translateZ(0);
+            -webkit-transform: translateZ(0);
+            -webkit-font-smoothing: antialiased;
+        }
+        .title-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            margin-bottom: 20px;
+            padding-top: 20px;
+        }
+
+        .hero_title {
+            color: #255D8A;
+            margin: 0;
+            font-size: 2.0em;
+            font-family: 'Cedarville Cursive', cursive;
+            text-align: center;
+        }
+
+        .scroll-container {
+            display: flex;
+            overflow-x: auto;
+            gap: 20px;
+            padding: 20px;
+            scroll-behavior: smooth;
+            perspective: 2000px;
+            transform-style: preserve-3d;
+        }    
+
+        .back-button {
+            position: absolute;
+            left: 40px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 10px 20px;
+            background-color: #255D8A;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .back-button:hover {
+            background-color: #1e4d70;
+        }
+
+        .card {
+            min-width: 300px;
+            max-width: 350px;
+            height: 420px;
+            perspective: 1000px;
+            border: 2px solid #255D8A;
+            border-radius: 17px;
+            overflow: hidden;
+            background: #fff;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            /* Prevent resizing */
+            transition: none !important;
+            cursor: pointer;
+            transform-style: preserve-3d;
+            will-change: transform;
+        }
+
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            min-height: 420px;
+            max-height: 420px;
+            text-align: center;
+            transition: transform 0.6s cubic-bezier(0.4, 0.0, 0.2, 1);
+            transform-style: preserve-3d;
+            will-change: transform;
+        }
+
+        .card.flipped .card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            min-height: 420px;
+            max-height: 420px;
+            backface-visibility: hidden;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            background: #fff;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            transform: translateZ(0);
+            -webkit-transform: translateZ(0);
+        }
+
+        .card-front img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            display: block;
+            background: #eee;
+            -webkit-transform: translateZ(0);
+            transform: translateZ(0);
+            will-change: transform;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+        }
+
+        .card-front .content {
+            padding: 15px;
+            background: white;
+            height: calc(100% - 220px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            opacity: 1;
+            transition: opacity 0.3s ease;
+        }
+
+        .card-back {
+            transform: rotateY(180deg);
+            background: white;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .card.flipping .card-front .content,
+.card.flipping .card-back .content {
+    opacity: 0.8;
+}
+
+        .spot-name {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #255D8A;
+            margin-bottom: 5px;
+        }
+
+        .spot-location {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+
+        .spot-description {
+            font-size: 0.9em;
+            line-height: 1.6;
+            color: #444;
+        }
+
+        /* Add styles for preloader */
+.preload-image {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    pointer-events: none;
+}

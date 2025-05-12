@@ -76,70 +76,111 @@ body {
     margin-bottom: 2rem;
 }
 
-.search-container {
-    margin: 2.5rem auto;
-    max-width: 700px;
-    width: 100%;
-    position: relative;
-    background: white;
-    border-radius: 50px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-}
+ .search-container {
+            margin: 2.5rem auto;
+            max-width: 700px;
+            position: relative;
+            background: white;
+            border-radius: 50px;
+            box-shadow: #255D8A;
+            border: #255D8A;
+        }
 
-.search-icon {
-    position: absolute;
-    left: 1.5rem;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #255D8A;
-    font-size: 1.2rem;
-}
+        .search-icon {
+            position: absolute;
+            left: 1.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #255D8A;
+            font-size: 1.2rem;
+        }
+
+        .search-container input {
+            width: 100%;
+            padding: 15px 20px 15px 45px;
+            border: none;
+            border-radius: 30px;
+            background: rgba(255, 255, 255, 0.9);
+            font-size: 1rem;
+            box-shadow: #255D8A;
+        }
+
+        .search-results {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border-radius: 15px;
+            margin-top: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            display: none;
+            max-height: 300px;
+            overflow-y: auto;
+            z-index: 1000;
+        }
+
+        .search-result-item {
+            padding: 15px 20px;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .search-result-item:hover {
+            background-color: #f5f5f5;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #255D8A;
+            font-size: 1.2rem;
+        }
+    
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-content p {
+                font-size: 1.1rem;
+                padding: 0 1rem;
+            }
+
+            .search-container {
+                width: 90%;
+            }
+        }
 
 .search-bar {
-    width: 100%;
-    padding: 1.2rem;
-    padding-left: 3.5rem;
-    border: none;
-    border-radius: 50px;
-    font-size: 1.1rem;
-    color: #333;
-    background: transparent;
-}
-
-.search-bar::placeholder {
-    color: #888;
-}
-
-.cta-button {
-    display: inline-block;
-    padding: 0.75rem 1.5rem;
-    background-color: #ffd700;
-    color: #255D8A;
-    text-decoration: none;
-    font-weight: bold;
-    border-radius: 4px;
-    transition: background-color 0.3s;
-}
-
-.cta-button:hover {
-    background-color: #e6c200;
-}
-
-@media (max-width: 768px) {
-    .hero-content h1 {
-        font-size: 2.5rem;
-    }
-
-    .hero-content p {
+        width: 100%; /* Make the search bar span the entire container */
+        padding: 1.2rem 1.5rem; /* Adjust padding to match the container */
+        padding-left: 3.5rem; /* Account for the search icon */
+        border: none;
+        border-radius: 50px;
         font-size: 1.1rem;
-        padding: 0 1rem;
+        color: #333;
+        background: transparent;
     }
 
-    .search-container {
-        width: 90%;
+    .description {
+        color: #555;
+        margin: 0.75rem 0;
+        line-height: 1.5;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        /* Added standard properties for compatibility */
+        display: box;
+        line-clamp: 3;
+        box-orient: vertical;
     }
-}
-
 /* Featured Section */
 .featured-section {
     padding: 4rem 1rem;
@@ -385,6 +426,10 @@ body {
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
+    /* Added standard properties for compatibility */
+    display: box;
+    line-clamp: 3;
+    box-orient: vertical;
 }
 
 /*route Finder */
